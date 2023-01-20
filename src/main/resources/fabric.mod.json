@@ -1,12 +1,14 @@
 {
   "schemaVersion": 1,
-  "id": "modid",
+  "id": "xof",
   "version": "${version}",
 
-  "name": "Example Mod",
-  "description": "This is an example description! Tell everyone what your mod is about!",
+  "name": "Xof Mod",
+  "description": "Xof Supremacy",
   "authors": [
-    "Me!"
+    "UnlikePaladin",
+    "Booze",
+    "xMin3Mast3r"
   ],
   "contact": {
     "homepage": "https://fabricmc.net/",
@@ -19,11 +21,11 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "net.fabricmc.example.ExampleMod"
+      "net.unlikepaladin.xof.XofMod"
     ]
   },
   "mixins": [
-    "modid.mixins.json"
+    "xof.mixins.json"
   ],
 
   "depends": {
@@ -32,7 +34,9 @@
     "minecraft": "~1.19.3",
     "java": ">=17"
   },
-  "suggests": {
-    "another-mod": "*"
+  "custom": {
+    "loom:injected_interfaces": {
+      "net/minecraft/class_4019": ["net/unlikepaladin/xof/FoxMusicInterface"]
+    }
   }
 }

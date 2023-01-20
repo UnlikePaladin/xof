@@ -1,12 +1,14 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "net.fabricmc.example.mixin",
+  "package": "net.unlikepaladin.xof.mixin",
   "compatibilityLevel": "JAVA_17",
   "mixins": [
+    "FoxMixin"
   ],
   "client": [
-    "ExampleMixin"
+    "FoxModelMixin",
+    "FoxRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
