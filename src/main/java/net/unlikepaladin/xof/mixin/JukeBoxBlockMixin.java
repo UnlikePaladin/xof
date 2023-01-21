@@ -41,8 +41,12 @@ public class JukeBoxBlockMixin {
 
     @Inject(at = @At("HEAD"), method = "removeRecord", cancellable = true)
     protected void stopXof(World world, BlockPos pos, CallbackInfo ci) {
+        List<FoxEntity> foxEntities;
         if (world.isClient && XofModClient.xofFileIsValid && XofModClient.musicPlayer != null) {
             XofModClient.musicPlayer.getAudioPlayer().stopTrack();
+            foxEntities = world.getNonSpectatingEntities(FoxEntity.class, new Box(pos).expand(3.0));
+            if (!foxEntities.isEmpty()) {
+                foxEntities.forEach(fox -> ((FoxMusicInterface)fox).setNearbySongPlaying(pos, false));}
         }
     }
 }

@@ -16,12 +16,6 @@ public class XofModClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         xofFileIsValid = MusicDownloader.dowloadFunkyVideo();
-
-        XofMod.LOGGER.info(String.valueOf(xofFileIsValid));
-
-
-
-
     }
 
 
