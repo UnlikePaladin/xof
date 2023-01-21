@@ -13,7 +13,8 @@ group = project.maven_group
 repositories {
 	maven { url 'https://maven.terraformersmc.com/releases/' }
 	maven { url 'https://api.modrinth.com/maven' }
-	maven {url 'https://mvnrepository.com/artifact/io.github.gaeqs/JavaYoutubeDownloader'}
+	maven { url 'https://jitpack.io' }
+	maven { url 'https://m2.dv8tion.net/releases' }
 }
 
 dependencies {
@@ -22,10 +23,13 @@ dependencies {
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 	modImplementation "com.terraformersmc:modmenu:$project.modmenu"
-	include(implementation(group: 'io.github.gaeqs', name: 'JavaYoutubeDownloader', version: '1.2.3')
-	)
+	include(implementation('com.github.sealedtx:java-youtube-downloader:3.1.0'))
+	include(implementation ('com.sedmelluq:lavaplayer:1.3.77'))
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+	include(implementation("com.github.LlamaLad7:MixinExtras:0.1.1"))
+	annotationProcessor("com.github.LlamaLad7:MixinExtras:0.1.1")
 
 	// Uncomment the following line to enable the deprecated Fabric API modules. 
 	// These are included in the Fabric API production distribution and allow you to update your mod to the latest modules at a later more convenient time.

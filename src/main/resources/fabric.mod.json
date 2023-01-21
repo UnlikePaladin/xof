@@ -22,6 +22,12 @@
   "entrypoints": {
     "main": [
       "net.unlikepaladin.xof.XofMod"
+    ],
+    "preLaunch": [
+      "com.llamalad7.mixinextras.MixinExtrasBootstrap::init"
+    ],
+    "client": [
+      "net.unlikepaladin.xof.XofModClient"
     ]
   },
   "mixins": [
