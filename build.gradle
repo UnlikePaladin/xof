@@ -67,6 +67,12 @@ jar {
 	}
 }
 
+remapJar {
+	classifier null
+	archiveClassifier = "mc${rootProject.minecraft_version}"
+}
+
+
 // configure the maven publication
 publishing {
 	publications {
