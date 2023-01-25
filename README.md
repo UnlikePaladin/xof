@@ -5,8 +5,8 @@
 
 You will need Fabric Loader 0.14.6 or newer installed in your game in order to load this mod. If you haven't installed Fabric mods before, you can find a variety of community guides for doing so [here](https://fabricmc.net/wiki/install).
 
-The mod is avaialbe for versions 1.19 through 1.19.2 and can be downloaded off of CurseForge, Modrinth.
-
+The mod is avaialbe for versions 1.19 through 1.19.2 and can be downloaded off of [Modrinth](https://modrinth.com/mod/xof/versions), and [CurseForge](https://www.curseforge.com/minecraft/mc-mods/xof).
+ 
 
 ## License
 
