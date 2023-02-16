@@ -41,11 +41,10 @@ public class MusicDiscItemMixin {
         BlockPos blockPos = context.getBlockPos();
         BlockEntity blockEntity = world.getBlockEntity(blockPos);
         ItemStack itemStack = context.getStack();
-        BlockState state = world.getBlockState(blockPos);
         List<FoxEntity> foxEntities;
-        if (blockEntity instanceof JukeboxBlockEntity && !(foxEntities = world.getNonSpectatingEntities(FoxEntity.class, new Box(blockPos).expand(3.0))).isEmpty()) {
+        if (blockEntity instanceof JukeboxBlockEntity jukeboxBlockEntity && !(foxEntities = world.getNonSpectatingEntities(FoxEntity.class, new Box(blockPos).expand(3.0))).isEmpty()) {
             if (!world.isClient) {
-                ((JukeboxBlock) Blocks.JUKEBOX).setRecord(context.getPlayer(), world, blockPos, state, itemStack);
+                jukeboxBlockEntity.setStack(itemStack);
                 itemStack.decrement(1);
                 PlayerEntity playerEntity = context.getPlayer();
                 if (playerEntity != null) {
