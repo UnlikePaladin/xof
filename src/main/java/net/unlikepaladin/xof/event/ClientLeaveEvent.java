@@ -13,7 +13,7 @@ public interface ClientLeaveEvent {
     /**
      * An event for the disconnection of the client play network handler.
      *
-     * <p>No packets should be sent when this event is invoked. Backported from Fabric-API-V1
+     * <p>No packets should be sent when this event is invoked.
      */
     Event<ClientLeaveEvent> DISCONNECT = EventFactory.createArrayBacked(ClientLeaveEvent.class, callbacks -> (handler, client) -> {
         for (ClientLeaveEvent callback : callbacks) {

@@ -1,7 +1,6 @@
 package net.unlikepaladin.xof;
 
-import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
-import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.passive.FoxEntity;
 import net.minecraft.util.Identifier;
@@ -15,10 +14,10 @@ public class NetworkXof {
     public static final Identifier PLAY_XOF = new Identifier(XofMod.MOD_ID, "play_xof");
 
     public static void registerClientPackets() {
-        ClientSidePacketRegistry.INSTANCE.register(STOP_XOF,
-                (packetContext, attachedData) -> {
+        ClientPlayNetworking.registerGlobalReceiver(STOP_XOF,
+                (client, handler, attachedData, responseSender) -> {
                     BlockPos pos = attachedData.readBlockPos();
-                    packetContext.getTaskQueue().execute(() -> {
+                    client.execute(() -> {
                         List<FoxEntity> foxEntities;
                         if (XofModClient.xofFileIsValid && XofModClient.musicPlayer != null) {
                             XofModClient.musicPlayer.getAudioPlayer().stopTrack();
@@ -29,10 +28,10 @@ public class NetworkXof {
                     });
         });
 
-        ClientSidePacketRegistry.INSTANCE.register(PLAY_XOF,
-                (packetContext, attachedData) -> {
+        ClientPlayNetworking.registerGlobalReceiver(PLAY_XOF,
+                (client, handler, attachedData, responseSender) -> {
                     BlockPos blockPos = attachedData.readBlockPos();
-                    packetContext.getTaskQueue().execute(() -> {
+                    client.execute(() -> {
                         List<FoxEntity> foxEntities;
                         if (XofModClient.xofFileIsValid) {
                             if (XofModClient.musicPlayer != null)

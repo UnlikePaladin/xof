@@ -5,6 +5,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.widget.SliderWidget;
 import net.minecraft.client.gui.widget.SoundSliderWidget;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.text.Text;
 import net.unlikepaladin.xof.XofModClient;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -21,7 +22,7 @@ public abstract class SoundSliderWidgetMixin extends SliderWidget {
     @Shadow
     private SoundCategory category;
 
-    public SoundSliderWidgetMixin(int x, int y, int width, int height, String message, double value) {
+    public SoundSliderWidgetMixin(int x, int y, int width, int height, Text message, double value) {
         super(x, y, width, height, message, value);
     }
 

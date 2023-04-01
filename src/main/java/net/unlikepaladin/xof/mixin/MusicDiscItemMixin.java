@@ -1,8 +1,8 @@
 package net.unlikepaladin.xof.mixin;
 
 import io.netty.buffer.Unpooled;
-import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
-import net.fabricmc.fabric.api.server.PlayerStream;
+import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.JukeboxBlock;
@@ -14,6 +14,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.item.MusicDiscItem;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.math.BlockPos;
@@ -41,18 +43,18 @@ public class MusicDiscItemMixin {
         List<FoxEntity> foxEntities;
         if (blockEntity instanceof JukeboxBlockEntity && !world.getNonSpectatingEntities(FoxEntity.class, new Box(blockPos).expand(3.0)).isEmpty()) {
             if (!world.isClient) {
-                ((JukeboxBlock) Blocks.JUKEBOX).setRecord(world, blockPos, state, itemStack);
+                ((JukeboxBlock) Blocks.JUKEBOX).setRecord(context.getPlayer(), world, blockPos, state, itemStack);
                 itemStack.decrement(1);
                 PlayerEntity playerEntity = context.getPlayer();
                 if (playerEntity != null) {
                     playerEntity.incrementStat(Stats.PLAY_RECORD);
                 }
                 PacketByteBuf passedData = new PacketByteBuf(Unpooled.buffer());
-                Stream<PlayerEntity> watchingPlayers = PlayerStream.watching(world,blockPos);
+                Stream<ServerPlayerEntity> watchingPlayers = PlayerLookup.tracking((ServerWorld)world, blockPos).stream();
                 passedData.writeBlockPos(blockPos);
                 // Then we'll send the packet to all the players
                 watchingPlayers.forEach(player ->
-                        ServerSidePacketRegistry.INSTANCE.sendToPlayer(player, NetworkXof.PLAY_XOF, passedData));
+                        ServerPlayNetworking.send(player, NetworkXof.PLAY_XOF, passedData));
             }
             cir.setReturnValue(world.isClient ? ActionResult.SUCCESS : ActionResult.CONSUME);
         }
