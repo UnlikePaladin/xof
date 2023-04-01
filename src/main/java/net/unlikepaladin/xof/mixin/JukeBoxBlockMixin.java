@@ -1,52 +1,60 @@
 package net.unlikepaladin.xof.mixin;
 
-import net.minecraft.block.Block;
+import io.netty.buffer.Unpooled;
+import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
+import net.fabricmc.fabric.api.server.PlayerStream;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.JukeboxBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.JukeboxBlockEntity;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.FoxEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
-import net.minecraft.world.event.GameEvent;
-import net.unlikepaladin.xof.FoxMusicInterface;
-import net.unlikepaladin.xof.XofMod;
-import net.unlikepaladin.xof.XofModClient;
+import net.unlikepaladin.xof.NetworkXof;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 @Mixin(JukeboxBlock.class)
 public class JukeBoxBlockMixin {
 
     @Inject(at = @At("HEAD"), method = "setRecord", cancellable = true)
-    protected void playXof(Entity user, WorldAccess world, BlockPos pos, BlockState state, ItemStack stack, CallbackInfo ci) {
+    protected void playXof(IWorld world, BlockPos pos, BlockState state, ItemStack stack, CallbackInfo ci) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         if (blockEntity instanceof JukeboxBlockEntity jukeboxBlockEntity && !world.getNonSpectatingEntities(FoxEntity.class, new Box(pos).expand(3.0)).isEmpty()) {
             jukeboxBlockEntity.setRecord(stack.copy());
-            world.setBlockState(pos, state.with(JukeboxBlock.HAS_RECORD, true), Block.NOTIFY_LISTENERS);
-            world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(user, state));
+            world.setBlockState(pos, state.with(JukeboxBlock.HAS_RECORD, true), 2);
             ci.cancel();
         }
     }
 
-    @Inject(at = @At("HEAD"), method = "removeRecord", cancellable = true)
+    @Inject(at = @At("HEAD"), method = "onBlockRemoved")
+    protected void stopXofOnBreak(BlockState state, World world, BlockPos pos, BlockState newState, boolean notify, CallbackInfo ci){
+        stopSong(world, pos);
+    }
+
+    @Inject(at = @At("HEAD"), method = "removeRecord")
     protected void stopXof(World world, BlockPos pos, CallbackInfo ci) {
-        List<FoxEntity> foxEntities;
-        if (world.isClient && XofModClient.xofFileIsValid && XofModClient.musicPlayer != null) {
-            XofModClient.musicPlayer.getAudioPlayer().stopTrack();
-            foxEntities = world.getNonSpectatingEntities(FoxEntity.class, new Box(pos).expand(3.0));
-            if (!foxEntities.isEmpty()) {
-                foxEntities.forEach(fox -> ((FoxMusicInterface)fox).setNearbySongPlaying(pos, false));}
+        stopSong(world, pos);
+    }
+
+
+    private void stopSong(World world, BlockPos pos) {
+        if (!world.isClient) {
+            PacketByteBuf passedData = new PacketByteBuf(Unpooled.buffer());
+            Stream<PlayerEntity> watchingPlayers = PlayerStream.watching(world, pos);
+            passedData.writeBlockPos(pos);
+            watchingPlayers.forEach(player ->
+                    ServerSidePacketRegistry.INSTANCE.sendToPlayer(player, NetworkXof.STOP_XOF, passedData));
         }
     }
 }

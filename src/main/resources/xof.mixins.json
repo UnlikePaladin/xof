@@ -9,7 +9,9 @@
     "MusicDiscItemMixin"
   ],
   "client": [
-    "FoxRendererMixin"
+    "ClientWorldMixin",
+    "FoxRendererMixin",
+    "SoundSliderWidgetMixin"
   ],
   "injectors": {
     "defaultRequire": 1
