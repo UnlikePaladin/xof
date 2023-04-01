@@ -37,8 +37,8 @@ public class JukeBoxBlockMixin {
     protected void stopXof(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit, CallbackInfoReturnable<ActionResult> cir) {
         if (state.get(JukeboxBlock.HAS_RECORD)) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
-            if (blockEntity instanceof JukeboxBlockEntity jukeboxBlockEntity) {
-                jukeboxBlockEntity.method_49213();
+            if (blockEntity instanceof JukeboxBlockEntity) {
+                ((JukeboxBlockEntity)blockEntity).dropRecord();
                 stopSong(world, pos);
                 cir.setReturnValue(ActionResult.success(world.isClient));
             }
