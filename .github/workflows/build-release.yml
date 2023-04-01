@@ -52,4 +52,4 @@ jobs:
 
           dependencies: fabric-api | depends | *
 
-          version-resolver: latest # Defaults to selecting the latest compatible version of Minecraft, using the tag from the fabric.mod.json
+          version-resolver: releases # Defaults to selecting the latest compatible version of Minecraft, using the tag from the fabric.mod.json
