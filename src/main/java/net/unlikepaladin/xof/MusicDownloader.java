@@ -23,9 +23,9 @@ public class MusicDownloader {
     private static final String videoId = "c2OO-TRuvDQ";
     // init downloader with default config
 
-    private static final Path xofFile = Path.of(FabricLoader.getInstance().getConfigDir() + "/xof/xofVideo.mp4");
+    private static final File xofFile = new File(FabricLoader.getInstance().getConfigDir() + "/xof/xofVideo.mp4");
     public static boolean dowloadFunkyVideo() {
-        if (xofFile.toFile().exists()) {
+        if (xofFile.exists()) {
             return true;
         }
         try {
@@ -79,6 +79,6 @@ public class MusicDownloader {
     }
 
     public static Path getXof() {
-        return xofFile;
+        return xofFile.toPath();
     }
 }

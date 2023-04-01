@@ -30,8 +30,8 @@ public class JukeBoxBlockMixin {
     @Inject(at = @At("HEAD"), method = "setRecord", cancellable = true)
     protected void playXof(IWorld world, BlockPos pos, BlockState state, ItemStack stack, CallbackInfo ci) {
         BlockEntity blockEntity = world.getBlockEntity(pos);
-        if (blockEntity instanceof JukeboxBlockEntity jukeboxBlockEntity && !world.getNonSpectatingEntities(FoxEntity.class, new Box(pos).expand(3.0)).isEmpty()) {
-            jukeboxBlockEntity.setRecord(stack.copy());
+        if (blockEntity instanceof JukeboxBlockEntity && !world.getNonSpectatingEntities(FoxEntity.class, new Box(pos).expand(3.0)).isEmpty()) {
+            ((JukeboxBlockEntity)blockEntity).setRecord(stack.copy());
             world.setBlockState(pos, state.with(JukeboxBlock.HAS_RECORD, true), 2);
             ci.cancel();
         }

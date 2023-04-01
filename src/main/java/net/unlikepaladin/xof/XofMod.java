@@ -10,14 +10,14 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import net.fabricmc.api.ModInitializer;
 import net.unlikepaladin.xof.audio.MusicPlayer;
 import net.unlikepaladin.xof.audio.TrackScheduler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class XofMod implements ModInitializer {
 	// This logger is used to write text to the console and the log file.
 	// It is considered best practice to use your mod id as the logger's name.
 	// That way, it's clear which mod wrote info, warnings, and errors.
-	public static final Logger LOGGER = LoggerFactory.getLogger("xof");
+	public static final Logger LOGGER = LogManager.getLogger("xof");
 	public static final String MOD_ID = "xof";
 	@Override
 	public void onInitialize() {

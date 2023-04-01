@@ -6,7 +6,6 @@ import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import net.fabricmc.api.ClientModInitializer;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.options.GameOptions;
 import net.minecraft.sound.SoundCategory;
 import net.unlikepaladin.xof.audio.MusicPlayer;
 import net.unlikepaladin.xof.audio.TrackScheduler;
