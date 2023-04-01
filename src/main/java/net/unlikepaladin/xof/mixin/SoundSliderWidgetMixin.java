@@ -28,7 +28,7 @@ public abstract class SoundSliderWidgetMixin extends SliderWidget {
 
     @Inject(method = "applyValue", at = @At("TAIL"))
     private void updateXofVolume(CallbackInfo ci) {
-        if (category == SoundCategory.MASTER) {
+        if (category == SoundCategory.MASTER && XofModClient.musicPlayer != null) {
             XofModClient.musicPlayer.setVolume((int)(this.value * 100));
         }
     }
