@@ -23,9 +23,6 @@
     "main": [
       "net.unlikepaladin.xof.XofMod"
     ],
-    "preLaunch": [
-      "com.llamalad7.mixinextras.MixinExtrasBootstrap::init"
-    ],
     "client": [
       "net.unlikepaladin.xof.XofModClient"
     ]
@@ -33,10 +30,10 @@
   "mixins": [
     "xof.mixins.json"
   ],
-
   "depends": {
     "fabricloader": ">=0.14.0",
-    "java": ">=17"
+    "minecraft": "~1.19.4",
+    "fabric": "*"
   },
   "custom": {
     "loom:injected_interfaces": {

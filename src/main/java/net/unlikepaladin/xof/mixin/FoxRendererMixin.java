@@ -1,14 +1,7 @@
 package net.unlikepaladin.xof.mixin;
 
-import net.minecraft.block.Blocks;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.FoxEntityRenderer;
-import net.minecraft.client.render.entity.MobEntityRenderer;
-import net.minecraft.client.render.entity.model.EntityModel;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.FoxEntity;
 import net.minecraft.util.math.RotationAxis;
 import net.unlikepaladin.xof.FoxMusicInterface;
